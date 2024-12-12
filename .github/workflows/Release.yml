@@ -49,9 +49,17 @@ jobs:
       run: |
         cargo build --release
     - name: Copy / Rename utility
+      if: |
+        startsWith(matrix.target, 'x86_64-apple-darwin') ||
+        startsWith(matrix.target, 'x86_64-pc-windows-msvc')
       run: |
         cp target/${{matrix.target}}/release/${{ matrix.output }} ${{ matrix.output }}-${{ matrix.target }}
         tar -czvf trunkver-${{ matrix.target }}.tgz ${{ matrix.output }}-${{ matrix.target }}
+    - name: Copy / Rename utility
+      if: startsWith(matrix.target, 'x86_64-unknown-linux-gnu')
+      run: |
+          cp target/release/${{ matrix.output }} ${{ matrix.output }}-${{ matrix.target }}
+          tar -czvf trunkver-${{ matrix.target }}.tgz ${{ matrix.output }}-${{ matrix.target }}
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
