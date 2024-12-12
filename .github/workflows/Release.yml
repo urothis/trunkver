@@ -16,7 +16,7 @@ jobs:
         include:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
-            output: trunkver
+            output: trunkver-cli
           #- target: x86_64-apple-darwin
           #  os: macos-latest
           #  output: trunkver
