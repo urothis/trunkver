@@ -40,7 +40,7 @@ jobs:
         cp target/${{ matrix.target }}/release/${{ matrix.output }} ${{ matrix.output }}-${{ matrix.target }}
         tar -czvf trunkver-${{ matrix.target }}.tgz ${{ matrix.output }}-${{ matrix.target }}
     - name: Upload artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.output }}-${{ matrix.target }}
         path: ${{ matrix.output }}-${{ matrix.target }}
@@ -59,7 +59,7 @@ jobs:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     steps:
       - name: Create Release
-        uses: actions/create-release@v1
+        uses: comnoco/create-release-action@main
         id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
