@@ -31,10 +31,8 @@ jobs:
         target:  ${{ matrix.target }}
         override: true
     - name: Build release
-      uses: actions-rs/cargo@v1
-      with:
-        command: build
-        args: --target ${{ matrix.target }} --release
+      run: |
+        cargo build --target ${{ matrix.target }} --release
     - name: Copy / Rename utility
       run: |
         cp target/${{matrix.target}}/release/${{ matrix.output }} ${{ matrix.output }}-${{ matrix.target }}
