@@ -26,13 +26,28 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: actions-rust-lang/setup-rust-toolchain@v1
+      if: |
+        startsWith(matrix.target, 'x86_64-apple-darwin') ||
+        startsWith(matrix.target, 'x86_64-pc-windows-msvc')
       with:
         toolchain: nightly
         target:  ${{ matrix.target }}
         override: true
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
+      if: startsWith(matrix.target, 'x86_64-unknown-linux-gnu')
+      with:
+        toolchain: nightly
+        override: true
     - name: Build release
+      if: |
+        startsWith(matrix.target, 'x86_64-apple-darwin') ||
+        startsWith(matrix.target, 'x86_64-pc-windows-msvc')
       run: |
         cargo build --target ${{ matrix.target }} --release
+    - name: Build release
+      if: startsWith(matrix.target, 'x86_64-unknown-linux-gnu')
+      run: |
+        cargo build --release
     - name: Copy / Rename utility
       run: |
         cp target/${{matrix.target}}/release/${{ matrix.output }} ${{ matrix.output }}-${{ matrix.target }}
