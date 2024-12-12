@@ -17,12 +17,12 @@ jobs:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
             output: trunkver-cli
-          #- target: x86_64-apple-darwin
-          #  os: macos-latest
-          #  output: trunkver
-          #- target: x86_64-pc-windows-msvc
-          #  os: windows-latest
-          #  output: trunkver.exe
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            output: trunkver-cli
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            output: trunkver-cli.exe
     steps:
     - uses: actions/checkout@v4
     - uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -37,8 +37,6 @@ jobs:
         args: --target ${{ matrix.target }} --release
     - name: Copy / Rename utility
       run: |
-        ls target
-        ls target/release
         cp target/${{matrix.target}}/release/${{ matrix.output }} ${{ matrix.output }}-${{ matrix.target }}
         tar -czvf trunkver-${{ matrix.target }}.tgz ${{ matrix.output }}-${{ matrix.target }}
     - name: Upload artifacts
