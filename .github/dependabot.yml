@@ -1,39 +1,6 @@
 ---
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directories: [
-      "/",
-      "/web/auth",
-      "/web/clinical",
-      "/web/family",
-    ]
-    schedule:
-      interval: "daily"
-    groups:
-      workspace-web:
-        patterns:
-          - "*"
-    ignore:
-      - dependency-name: "video.js"
-  - package-ecosystem: "npm"
-    directory: "/web/milktracker"
-    schedule:
-      interval: "daily"
-    groups:
-      milktracker-web:
-        patterns:
-          - "*"
-  - package-ecosystem: "nuget"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    groups:
-      dotnet:
-        patterns:
-          - "*"
-    ignore:
-      - dependency-name: "QuestPDF"
   - package-ecosystem: "cargo"
     directory: "/"
     schedule:
@@ -48,21 +15,5 @@ updates:
       interval: "daily"
     groups:
       actions:
-        patterns:
-          - "*"
-  - package-ecosystem: "devcontainers"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    groups:
-      devcontainer:
-        patterns:
-          - "*"
-  - package-ecosystem: "npm"
-    directory: "/.aws/cdk"
-    schedule:
-      interval: "daily"
-    groups:
-      cdk_library:
         patterns:
           - "*"
