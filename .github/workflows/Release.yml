@@ -37,6 +37,8 @@ jobs:
         args: --target ${{ matrix.target }} --release
     - name: Copy / Rename utility
       run: |
+        ls target
+        ls target/release
         cp target/release/${{ matrix.output }} ${{ matrix.output }}-${{ matrix.target }}
         tar -czvf trunkver-${{ matrix.target }}.tgz ${{ matrix.output }}-${{ matrix.target }}
     - name: Upload artifacts
