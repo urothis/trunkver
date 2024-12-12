@@ -1,0 +1,69 @@
+name: TrunkVer Release
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  build-trunkver:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            output: trunkver
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            output: trunkver
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            output: trunkver.exe
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
+      with:
+        toolchain: nightly
+        target:  ${{ matrix.target }}
+        override: true
+    - name: Build release
+      uses: actions-rs/cargo@v1
+      with:
+        command: build
+        args: --target ${{ matrix.target }} --release
+    - name: Copy / Rename utility
+      run: |
+        cp target/${{ matrix.target }}/release/${{ matrix.output }} ${{ matrix.output }}-${{ matrix.target }}
+        tar -czvf trunkver-${{ matrix.target }}.tgz ${{ matrix.output }}-${{ matrix.target }}
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ matrix.output }}-${{ matrix.target }}
+        path: ${{ matrix.output }}-${{ matrix.target }}
+    - name: Upload binary to release
+      if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: trunkver-${{ matrix.target }}.tgz
+        asset_name: trunkver-${{ matrix.target }}.tgz
+        tag: ${{ github.ref }}
+        overwrite: true
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    steps:
+      - name: Create Release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: Release ${{ github.ref }}
