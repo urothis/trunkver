@@ -1,0 +1,30 @@
+---
+name: "TrunkVer"
+description: "Get TrunkVer"
+inputs:
+    with_v_suffix:
+        description: "Whether to add the v suffix"
+        required: false
+runs:
+    using: "composite"
+    steps:
+        - name: Setup Rust
+          uses: actions-rust-lang/setup-rust-toolchain@v1
+        - uses: cargo-bins/cargo-binstall@main
+        - name: Get TrunkVer
+          shell: bash
+          run: cargo binstall --force --path trunkver
+        - name: Get TrunkVer Version
+          if: ${{ inputs.with_v_suffix }}
+          shell: bash
+          run: trunkver --build-ref ${{ github.sha }} --source-ref ${{ github.ref }} --with_v
+          id: trunkver_version
+        - name: Get TrunkVer Version
+          if: ${{ !inputs.with_v_suffix }}
+          shell: bash
+          run: trunkver --build-ref ${{ github.sha }} --source-ref ${{ github.ref }}
+          id: trunkver_version
+outputs:
+    version:
+        description: "The version of TrunkVer"
+        value: ${{ steps.trunkver_version.outputs.stdout }}
