@@ -80,10 +80,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: TrunkVer
-        uses: ./
-      - name: Get TrunkVer
         id: trunkver
-        run: cargo binstall trunkver
+        uses: ./
       - name: Create Release
         uses: comnoco/create-release-action@main
         id: create_release
