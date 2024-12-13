@@ -1,5 +1,5 @@
 use chrono::Utc;
-use core::fmt;
+use std::fmt;
 
 pub mod prelude {
     pub use crate::TrunkVer;
