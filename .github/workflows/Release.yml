@@ -9,10 +9,20 @@ permissions:
 env:
   CARGO_TERM_COLOR: always
 jobs:
+  get-trunkver:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.trunkver.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: TrunkVer
+        id: trunkver
+        uses: ./
   build-trunkver:
     runs-on: ${{ matrix.os }}
+    needs: get-trunkver
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         include:
           - target: x86_64-unknown-linux-gnu
@@ -72,30 +82,26 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: trunkver-${{ matrix.target }}.tgz
         asset_name: trunkver-${{ matrix.target }}.tgz
-        tag: ${{ github.ref }}
+        tag: ${{ needs.get-trunkver.outputs.version }}
         overwrite: true
   release:
     name: Create release
+    needs: get-trunkver
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: TrunkVer
-        id: trunkver
-        uses: ./
-      - run: |
-          echo "TrunkVer Version: ${{ steps.trunkver.outputs.version }}"
       - name: Create Release
         uses: comnoco/create-release-action@main
         id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.trunkver.outputs.version_with_v }}
-          release_name: Release ${{ steps.trunkver.outputs.version_with_v }}
-          body: Release ${{ steps.trunkver.outputs.version }}
+          tag_name: ${{ needs.get-trunkver.outputs.version }}
+          release_name: Release ${{ needs.get-trunkver.outputs.version }}
+          body: Release ${{ needs.get-trunkver.outputs.version }}
       - name: Change Cargo.toml version
         run: |
-          sed -i "s/^version = \".*\"/version = \"${{ steps.TrunkVer.outputs.version }}\"/" crates/cli/Cargo.toml
+          sed -i "s/^version = \".*\"/version = \"${{ needs.get-trunkver.outputs.version }}\"/" crates/cli/Cargo.toml
           cat crates/cli/Cargo.toml
       - name: cargo login
         run: cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
