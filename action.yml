@@ -4,10 +4,8 @@ branding:
   icon: "chevron-up"
   color: "black"
 outputs:
-  version:
-    description: "The version of TrunkVer"
-  version_with_v:
-    description: "The version of TrunkVer with v"
+  version: ${{ steps.get_version.outputs.version }}
+  version_with_v: ${{ steps.get_version.outputs.version_with_v }}
 runs:
   using: "composite"
   steps:
