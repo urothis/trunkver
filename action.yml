@@ -20,7 +20,7 @@ runs:
     shell: bash
     run: |
       VERSION=$(trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }} --with-v)
-      echo "version_with_v=$VERSION_WITH_V" >> $GITHUB_OUTPUT
+      echo "version_with_v=$VERSION" >> $GITHUB_OUTPUT
   - name: Get TrunkVer Version (without v)
     shell: bash
     run: |
