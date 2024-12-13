@@ -1,4 +1,4 @@
-use trunkver::TrunkVer;
+use trunkver_lib::TrunkVer;
 
 use clap::Parser;
 

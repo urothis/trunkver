@@ -1,7 +1,10 @@
 [package]
 name = "trunkver"
+version = "0.1.1"
+repository = "https://github.com/urothis/trunkver"
+description = "A CLI for generating trunk version numbers"
+license = "MIT OR Apache-2.0"
 edition = "2021"
-version = "0.1.0"
 publish = true
 
 [dependencies]

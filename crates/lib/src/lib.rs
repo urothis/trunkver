@@ -1,3 +1,5 @@
+extern crate chrono;
+
 use chrono::Utc;
 use std::fmt;
 

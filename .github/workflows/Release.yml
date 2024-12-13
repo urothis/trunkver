@@ -98,7 +98,7 @@ jobs:
         run: |-
           cargo release \
             publish \
-            --workspace \
+            -p trunkver \
             --all-features \
             --allow-branch HEAD \
             --no-confirm \
