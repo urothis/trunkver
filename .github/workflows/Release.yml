@@ -82,8 +82,6 @@ jobs:
       - name: TrunkVer
         id: TrunkVer
         uses: ./
-        with:
-          with_v_suffix: true
       - name: Create Release
         uses: comnoco/create-release-action@main
         id: create_release
@@ -91,8 +89,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.TrunkVer.outputs.version_with_v }}
-          release_name: Release ${{ github.ref }}
-          body: Release ${{ github.ref }}
+          release_name: Release ${{ steps.TrunkVer.outputs.version_with_v }}
+          body: Release ${{ steps.TrunkVer.outputs.version_with_v }}
       - name: Change Cargo.toml version
         run: |
           sed -i "s/^version = \".*\"/version = \"${{ steps.TrunkVer.outputs.version }}\"/" crates/cli/Cargo.toml

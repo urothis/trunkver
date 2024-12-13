@@ -3,11 +3,11 @@ description: "Get TrunkVer"
 branding:
   icon: "chevron-up"
   color: "black"
-inputs:
-  with_v_suffix:
-    description: "Whether to add the v suffix"
-    required: false
-    default: "false"
+outputs:
+  version:
+    description: "The version of TrunkVer"
+  version_with_v:
+    description: "The version of TrunkVer with v"
 runs:
   using: "composite"
   steps:
@@ -26,8 +26,3 @@ runs:
     run: |
       VERSION=$(trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }})
       echo "version=$VERSION" >> $GITHUB_OUTPUT
-outputs:
-  version:
-    description: "The version of TrunkVer"
-  version_with_v:
-    description: "The version of TrunkVer with v"
