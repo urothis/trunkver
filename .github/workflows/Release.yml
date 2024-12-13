@@ -82,6 +82,8 @@ jobs:
       - name: TrunkVer
         id: trunkver
         uses: ./
+      - run: |
+          echo "TrunkVer Version: ${{ steps.trunkver.outputs.version }}"
       - name: Create Release
         uses: comnoco/create-release-action@main
         id: create_release
