@@ -20,13 +20,13 @@ jobs:
         include:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-20.04
-            output: trunkver-cli
+            output: trunkver
           - target: x86_64-apple-darwin
             os: macos-latest
-            output: trunkver-cli
+            output: trunkver
           - target: x86_64-pc-windows-msvc
             os: windows-latest
-            output: trunkver-cli.exe
+            output: trunkver.exe
     steps:
     - uses: actions/checkout@v4
     - uses: actions-rust-lang/setup-rust-toolchain@v1
