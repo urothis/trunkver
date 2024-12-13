@@ -96,11 +96,12 @@ jobs:
       - name: Change Cargo.toml version
         run: |
           sed -i "s/^version = \".*\"/version = \"${{ steps.TrunkVer.outputs.version }}\"/" crates/cli/Cargo.toml
+          cat crates/cli/Cargo.toml
       - name: cargo login
         run: cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
       - name: cargo publish
         run: |-
-          cargo release \
+          cargo \
             publish \
             -p trunkver \
             --all-features \
