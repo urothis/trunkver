@@ -80,7 +80,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: TrunkVer
-        id: trunkver
+        id: TrunkVer
         uses: ./
         with:
           with_v_suffix: true
@@ -90,12 +90,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.trunkver.outputs.version_with_v }}
+          tag_name: ${{ steps.TrunkVer.outputs.version_with_v }}
           release_name: Release ${{ github.ref }}
           body: Release ${{ github.ref }}
       - name: Change Cargo.toml version
         run: |
-          sed -i "s/^version = \".*\"/version = \"${{ steps.trunkver.outputs.version }}\"/" crates/cli/Cargo.toml
+          sed -i "s/^version = \".*\"/version = \"${{ steps.TrunkVer.outputs.version }}\"/" crates/cli/Cargo.toml
       - name: cargo login
         run: cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
       - name: cargo publish
