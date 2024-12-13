@@ -82,13 +82,15 @@ jobs:
       - name: TrunkVer
         id: trunkver
         uses: ./
+        with:
+          with_v_suffix: true
       - name: Create Release
         uses: comnoco/create-release-action@main
         id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.trunkver.outputs.version }}
+          tag_name: ${{ steps.trunkver.outputs.version_with_v }}
           release_name: Release ${{ github.ref }}
           body: Release ${{ github.ref }}
       - name: Change Cargo.toml version
