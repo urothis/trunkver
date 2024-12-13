@@ -21,16 +21,19 @@ runs:
         - name: Get TrunkVer Version (with v)
           if: ${{ inputs.with_v_suffix == 'true' }}
           shell: bash
-          run: trunkver --build-ref ${{ github.sha }} --source-ref ${{ github.ref }} --with_v
+          run: trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }} --with_v
           id: trunkver_version_with_v
 
         - name: Get TrunkVer Version (without v)
           if: ${{ inputs.with_v_suffix != 'true' }}
           shell: bash
-          run: trunkver --build-ref ${{ github.sha }} --source-ref ${{ github.ref }}
+          run: trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }}
           id: trunkver_version_without_v
 
 outputs:
     version:
         description: "The version of TrunkVer"
-        value: ${{ steps.trunkver_version_with_v.outputs.stdout || steps.trunkver_version_without_v.outputs.stdout }}
+        value: ${{ steps.trunkver_version_without_v.outputs.stdout }}
+    version_with_v:
+        description: "The version of TrunkVer with v"
+        value: ${{ steps.trunkver_version_with_v.outputs.stdout }}
