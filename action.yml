@@ -16,7 +16,7 @@ runs:
         - uses: cargo-bins/cargo-binstall@main
         - name: Get TrunkVer
           shell: bash
-          run: cargo binstall trunkver@latest
+          run: cargo binstall trunkver@0.1.1
 
         - name: Get TrunkVer Version (with v)
           if: ${{ inputs.with_v_suffix == 'true' }}
