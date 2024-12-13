@@ -19,11 +19,13 @@ runs:
   - name: Get TrunkVer Version (with v)
     shell: bash
     run: |
-      trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }} --with-v
+      VERSION=$(trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }} --with-v)
+      echo "version_with_v=$VERSION_WITH_V" >> $GITHUB_OUTPUT
   - name: Get TrunkVer Version (without v)
     shell: bash
     run: |
-      trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }}
+      VERSION=$(trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }})
+      echo "version=$VERSION" >> $GITHUB_OUTPUT
 outputs:
   version:
     description: "The version of TrunkVer"
