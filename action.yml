@@ -1,6 +1,9 @@
 ---
 name: "TrunkVer"
 description: "Get TrunkVer"
+branding:
+    icon: "chevron-up"
+    color: "black"
 inputs:
     with_v_suffix:
         description: "Whether to add the v suffix"
