@@ -20,11 +20,11 @@ runs:
     run: cargo binstall trunkver@0.1.1
   - name: Get TrunkVer Version (with v)
     shell: bash
-    id: get_version_with_v
-    run: |
-      echo "version_with_v=$(trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }} --with-v)" >> $GITHUB_OUTPUT
-  - name: Get TrunkVer Version (without v)
-    shell: bash
     id: get_version
     run: |
       echo "version=$(trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }})" >> $GITHUB_OUTPUT
+  - name: Get TrunkVer Version (without v)
+    shell: bash
+    id: get_version_with_v
+    run: |
+      echo "version_with_v=v${{ steps.get_version.outputs.version }}" >> $GITHUB_OUTPUT
