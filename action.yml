@@ -11,27 +11,21 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions-rust-lang/setup-rust-toolchain@v1
-    - uses: cargo-bins/cargo-binstall@main
-    - name: Install TrunkVer
-      shell: bash
-      run: cargo binstall trunkver@0.1.1
-    - name: Get TrunkVer Version (with v)
-      id: with_v
-      shell: bash
-      run: |
-        VERSION_WITH_V=$(trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }} --with-v)
-        echo "version_with_v=$VERSION_WITH_V" >> $GITHUB_OUTPUT
-    - name: Get TrunkVer Version (without v)
-      id: without_v
-      shell: bash
-      run: |
-        VERSION=$(trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }})
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
+  - uses: actions-rust-lang/setup-rust-toolchain@v1
+  - uses: cargo-bins/cargo-binstall@main
+  - name: Get TrunkVer
+    shell: bash
+    run: cargo binstall trunkver@0.1.1
+  - name: Get TrunkVer Version (with v)
+    shell: bash
+    run: |
+      trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }} --with-v
+  - name: Get TrunkVer Version (without v)
+    shell: bash
+    run: |
+      trunkver --build-ref ${{ github.run_id }}-${{ github.run_number }} --source-ref ${{ github.sha }}
 outputs:
   version:
     description: "The version of TrunkVer"
-    value: ${{ steps.without_v.outputs.version }}
   version_with_v:
     description: "The version of TrunkVer with v"
-    value: ${{ steps.with_v.outputs.version_with_v }}
