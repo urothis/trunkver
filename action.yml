@@ -18,7 +18,7 @@ runs:
           run: cargo binstall trunkver@0.1.1
         - name: Get TrunkVer Version (with v)
           shell: bash
-          run: trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }} --with_v
+          run: trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }} --with-v
           id: trunkver_version_with_v
         - name: Get TrunkVer Version (without v)
           shell: bash
