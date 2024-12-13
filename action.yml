@@ -1,4 +1,3 @@
----
 name: "TrunkVer"
 description: "Get TrunkVer"
 branding:
@@ -17,19 +16,14 @@ runs:
         - name: Get TrunkVer
           shell: bash
           run: cargo binstall trunkver@0.1.1
-
         - name: Get TrunkVer Version (with v)
-          if: ${{ inputs.with_v_suffix == 'true' }}
           shell: bash
           run: trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }} --with_v
           id: trunkver_version_with_v
-
         - name: Get TrunkVer Version (without v)
-          if: ${{ inputs.with_v_suffix != 'true' }}
           shell: bash
           run: trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }}
           id: trunkver_version_without_v
-
 outputs:
     version:
         description: "The version of TrunkVer"
