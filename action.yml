@@ -1,33 +1,37 @@
 name: "TrunkVer"
 description: "Get TrunkVer"
 branding:
-    icon: "chevron-up"
-    color: "black"
+  icon: "chevron-up"
+  color: "black"
 inputs:
-    with_v_suffix:
-        description: "Whether to add the v suffix"
-        required: false
-        default: "false"
+  with_v_suffix:
+    description: "Whether to add the v suffix"
+    required: false
+    default: "false"
 runs:
-    using: "composite"
-    steps:
-        - uses: actions-rust-lang/setup-rust-toolchain@v1
-        - uses: cargo-bins/cargo-binstall@main
-        - name: Get TrunkVer
-          shell: bash
-          run: cargo binstall trunkver@0.1.1
-        - name: Get TrunkVer Version (with v)
-          shell: bash
-          run: trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }} --with-v
-          id: trunkver_version_with_v
-        - name: Get TrunkVer Version (without v)
-          shell: bash
-          run: trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }}
-          id: trunkver_version_without_v
+  using: "composite"
+  steps:
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
+    - uses: cargo-bins/cargo-binstall@main
+    - name: Install TrunkVer
+      shell: bash
+      run: cargo binstall trunkver@0.1.1
+    - name: Get TrunkVer Version (with v)
+      id: with_v
+      shell: bash
+      run: |
+        VERSION_WITH_V=$(trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }} --with-v)
+        echo "version_with_v=$VERSION_WITH_V" >> $GITHUB_OUTPUT
+    - name: Get TrunkVer Version (without v)
+      id: without_v
+      shell: bash
+      run: |
+        VERSION=$(trunkver --build-ref ${{ github.ref }} --source-ref ${{ github.run_id }})
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
 outputs:
-    version:
-        description: "The version of TrunkVer"
-        value: ${{ steps.trunkver_version_without_v.outputs.stdout }}
-    version_with_v:
-        description: "The version of TrunkVer with v"
-        value: ${{ steps.trunkver_version_with_v.outputs.stdout }}
+  version:
+    description: "The version of TrunkVer"
+    value: ${{ steps.without_v.outputs.version }}
+  version_with_v:
+    description: "The version of TrunkVer with v"
+    value: ${{ steps.with_v.outputs.version_with_v }}
