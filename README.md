@@ -1,1 +1,3 @@
 # trunkver-rs
+
+Debug
