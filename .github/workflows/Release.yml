@@ -20,13 +20,13 @@ jobs:
         include:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-20.04
-            output: trunkver-cli
+            output: trunkver
           - target: x86_64-apple-darwin
             os: macos-latest
-            output: trunkver-cli
+            output: trunkver
           - target: x86_64-pc-windows-msvc
             os: windows-latest
-            output: trunkver-cli.exe
+            output: trunkver.exe
     steps:
     - uses: actions/checkout@v4
     - uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -92,3 +92,15 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: Release ${{ github.ref }}
+      - name: cargo login
+        run: cargo login ${{ secrets.CRATES_IO_API_TOKEN }}
+      - name: cargo publish
+        run: |-
+          cargo release \
+            publish \
+            -p trunkver \
+            --all-features \
+            --allow-branch HEAD \
+            --no-confirm \
+            --no-verify \
+            --execute

@@ -12,7 +12,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - name: TrunkVer
-              uses: urothis/trunkver-rs@v1.0.4
+              uses: ./
             - run: |
                 echo "TrunkVer Version: ${{ steps.TrunkVer.outputs.version }}"
     Build:

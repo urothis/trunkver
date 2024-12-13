@@ -1,5 +1,6 @@
 [workspace]
 resolver = "2"
+package.publish = true
 default-members = [
     "crates/cli"
 ]
@@ -7,5 +8,4 @@ members = [
     "crates/cli",
     "crates/lib"
 ]
-[workspace.dependencies]
-trunkver = { path = "crates/lib" }
+license = "MIT OR Apache-2.0"

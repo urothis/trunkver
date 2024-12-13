@@ -274,17 +274,26 @@ dependencies = [
 
 [[package]]
 name = "trunkver"
+version = "0.1.1"
+dependencies = [
+ "clap",
+ "trunkver-lib 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "trunkver-lib"
 version = "0.1.0"
 dependencies = [
  "chrono",
 ]
 
 [[package]]
-name = "trunkver-cli"
+name = "trunkver-lib"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8a2ccd4cefa0b4115b41f4248074023c3f876825fa92341864649169063e4e28"
 dependencies = [
- "clap",
- "trunkver",
+ "chrono",
 ]
 
 [[package]]

@@ -1,8 +1,12 @@
 [package]
-name = "trunkver-cli"
-version = "0.1.0"
+name = "trunkver"
+version = "0.1.1"
+repository = "https://github.com/urothis/trunkver"
+description = "A CLI for generating trunk version numbers"
+license = "MIT OR Apache-2.0"
 edition = "2021"
+publish = true
 
 [dependencies]
-clap ={ version = "4", features = ["derive"] }
-trunkver = { workspace = true }
+clap = { version = "4", features = ["derive"] }
+trunkver-lib = "0.1.0"
