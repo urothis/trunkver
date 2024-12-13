@@ -3,11 +3,8 @@ name: ✅ Build
 on:
     push:
     merge_group:
-permissions:
-    contents: read
-    pull-requests: read
 jobs:
-    Debug:
+    BuildAction:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -15,11 +12,3 @@ jobs:
               uses: ./
             - run: |
                 echo "TrunkVer Version: ${{ steps.TrunkVer.outputs.version }}"
-    Build:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: cargo-bins/cargo-binstall@main
-            - name: Build TrunkVer
-              run: |
-                cargo build --release
