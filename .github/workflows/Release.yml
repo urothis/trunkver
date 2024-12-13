@@ -106,7 +106,6 @@ jobs:
             -p trunkver \
             --all-features \
             --allow-dirty \
-            --allow-branch HEAD \
             --no-confirm \
             --no-verify \
             --execute
