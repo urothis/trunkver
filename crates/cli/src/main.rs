@@ -1,4 +1,4 @@
-use trunkver_lib::TrunkVer;
+use trunkver_lib::prelude::*;
 
 use clap::Parser;
 
@@ -7,17 +7,19 @@ use clap::Parser;
 #[command(about = "A CLI for generating trunk versioning")]
 struct Cli {
     #[arg(short, long)]
-    build_ref: String,
-    #[arg(short, long)]
-    source_ref: String,
+    build_ref: Option<String>,
     #[arg(short = 'v', long, action)]
     with_v: bool,
 }
 
 fn main() {
     let cli = Cli::parse();
-    println!(
-        "{}",
-        TrunkVer::new(&cli.build_ref, &cli.source_ref, cli.with_v)
-    );
+
+    match cli.build_ref {
+        Some(build_ref) => match cli.with_v {
+            true => println!("{:#?}", trunkver!(build_ref, true)),
+            false => println!("{:#?}", trunkver!(build_ref)),
+        },
+        None => println!("{:#?}", trunkver!()),
+    }
 }
