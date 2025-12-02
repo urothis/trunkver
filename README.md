@@ -10,7 +10,7 @@ cargo add trunkver
 
 ## Example
 ```
-use trunkver::Trunkver;
+use trunkver::*;
 
 fn main() {
     println!("{}", TRUNKWHY);
