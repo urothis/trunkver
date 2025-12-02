@@ -1,14 +1,16 @@
 ---
-name: ✅ Build
+name: Build
 on:
     push:
     merge_group:
 jobs:
-    BuildAction:
+    Build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - name: TrunkVer
-              uses: ./
-            - run: |
-                echo "TrunkVer Version: ${{ steps.TrunkVer.outputs.version }}"
+            - uses: actions/checkout@v5
+            - uses: dtolnay/rust-toolchain@stable
+              with:
+                components: clippy, rustfmt
+            - run: cargo fmt --check
+            - run: cargo clippy
+            

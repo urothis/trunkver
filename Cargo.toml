@@ -1,11 +1,16 @@
-[workspace]
-resolver = "2"
-package.publish = true
-default-members = [
-    "crates/cli"
-]
-members = [
-    "crates/cli",
-    "crates/lib"
-]
+[package]
+name = "trunkver"
+version = "1.0.0"
+repository = "https://github.com/urothis/trunkver"
+description = "A library for baking trunkver into your Rust projects"
 license = "MIT OR Apache-2.0"
+edition = "2024"
+build = "build.rs"
+
+[build-dependencies]
+chrono = "0.4"
+syn = "2"
+quote = "1"
+proc-macro2 = "1"
+prettyplease = "0.2.37"
+tokio = { version = "1", features = ["full"] }
